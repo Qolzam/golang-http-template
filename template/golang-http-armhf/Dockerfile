@@ -34,7 +34,7 @@ RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
 FROM alpine:3.11.3  
-RUN ["/bin/bash", "-c", "echo I am now using bash!"]
+RUN ["/bin/sh", "-c", "echo I am now using bash!"]
 # Add non root user and certs
 #RUN apk --no-cache add ca-certificates
 #RUN addgroup -S app
