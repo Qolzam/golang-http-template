@@ -33,7 +33,12 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-FROM alpine:3.11.3  
+FROM --platform=$BUILDPLATFORM alpine:3.11.3  
+
+# expose the values to the stage                                                                                            
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH   
+
 RUN ["/bin/sh", "-c", "echo I am now using bash!"]
 # Add non root user and certs
 #RUN apk --no-cache add ca-certificates
