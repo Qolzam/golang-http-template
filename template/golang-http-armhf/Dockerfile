@@ -3,7 +3,7 @@
 # TARGET* is the target platform of the build job                                                                           
 # The values are in global scope and do not leak to your commands                                                              
 
-FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.3 as watchdog
+FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
 FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
 # expose the values to the stage                                                                                            
 ARG TARGETOS                                                                                                                
@@ -59,4 +59,4 @@ ENV fprocess="./handler"
 ENV mode="http"
 ENV upstream_url="http://127.0.0.1:8082"
 
-CMD ["echo hello"]
+CMD ["./fwatchdog"]
