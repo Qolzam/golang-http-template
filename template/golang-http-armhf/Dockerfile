@@ -1,9 +1,7 @@
 # BUILD* and TARGET* args are filled automatically                                                                          
 # BUILD* means the platform of the node doing the build                                                                     
 # TARGET* is the target platform of the build job                                                                           
-# The values are in global scope and do not leak to your commands                                                           
-                                                                                                                             
-# this stage is fixed to worker platform (linux/amd64 in this case)                                                         
+# The values are in global scope and do not leak to your commands                                                              
 
 FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.3 as watchdog
 FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
