@@ -33,7 +33,7 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-FROM scratch 
+FROM --platform=$BUILDPLATFORM alpine 
 
 # expose the values to the stage                                                                                            
 ARG TARGETOS                                                                                                                
