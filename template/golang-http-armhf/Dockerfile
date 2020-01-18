@@ -42,20 +42,20 @@ ARG TARGETARCH
 #RUN echo "I am using the default scratch"
 # Add non root user and certs
 RUN apk --no-cache add ca-certificates
-#RUN addgroup -S app
-#RUN adduser -S -g app app
-#RUN mkdir -p /home/app
-#RUN chown app /home/app
+RUN addgroup -S app
+RUN adduser -S -g app app
+RUN mkdir -p /home/app
+RUN chown app /home/app
 
-#WORKDIR /home/app
+WORKDIR /home/app
 
-#COPY --from=build /go/src/handler/handler    .
-#COPY --from=build /usr/bin/fwatchdog         .
-#COPY --from=build /go/src/handler/function/  .
+COPY --from=build /go/src/handler/handler    .
+COPY --from=build /usr/bin/fwatchdog         .
+COPY --from=build /go/src/handler/function/  .
 
-#RUN chown -R app /home/app
+RUN chown -R app /home/app
 
-#USER app
+USER app
 
 ENV fprocess="./handler"
 ENV mode="http"
