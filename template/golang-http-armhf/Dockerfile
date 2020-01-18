@@ -27,7 +27,7 @@ COPY . .
 # Run a gofmt and exclude all vendored code.
 #RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./function/vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
 
-ARG GO111MODULE="off"
+ARG GO111MODULE="on"
 ARG GOPROXY=""
 
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
@@ -36,9 +36,9 @@ RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 FROM --platform=$BUILDPLATFORM alpine:3.11   
 
 # Add non root user and certs
-RUN apk --no-cache add ca-certificates
-RUN addgroup -S app
-RUN adduser -S -g app app
+#RUN apk --no-cache add ca-certificates
+#RUN addgroup -S app
+#RUN adduser -S -g app app
 RUN mkdir -p /home/app
 RUN chown app /home/app
 
