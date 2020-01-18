@@ -33,7 +33,7 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-FROM --platform=$BUILDPLATFORM alpine:3.11   
+FROM alpine:3.11   
 
 # Add non root user and certs
 #RUN apk --no-cache add ca-certificates
