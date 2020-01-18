@@ -39,7 +39,7 @@ FROM scratch
 ARG TARGETOS                                                                                                                
 ARG TARGETARCH   
 
-RUN echo I am using the default
+RUN echo "I am using the default scratch"
 # Add non root user and certs
 #RUN apk --no-cache add ca-certificates
 #RUN addgroup -S app
