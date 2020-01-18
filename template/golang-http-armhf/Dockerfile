@@ -39,7 +39,7 @@ FROM --platform=$BUILDPLATFORM alpine:3.11.3
 ARG TARGETOS                                                                                                                
 ARG TARGETARCH   
 
-RUN ["/bin/sh", "-c", "echo I am now using bash!"]
+RUN echo I am using the default
 # Add non root user and certs
 #RUN apk --no-cache add ca-certificates
 #RUN addgroup -S app
