@@ -39,7 +39,7 @@ FROM --platform=$BUILDPLATFORM alpine:3.11
 #RUN apk --no-cache add ca-certificates
 #RUN addgroup -S app
 #RUN adduser -S -g app app
-#RUN mkdir -p /home/app
+RUN mkdir -p /home/app
 #RUN chown app /home/app
 
 #WORKDIR /home/app
