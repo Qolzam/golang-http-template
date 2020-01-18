@@ -1,5 +1,17 @@
-FROM openfaas/of-watchdog:0.7.3 as watchdog
-FROM golang:1.13-alpine3.11 as build
+# BUILD* and TARGET* args are filled automatically                                                                          
+# BUILD* means the platform of the node doing the build                                                                     
+# TARGET* is the target platform of the build job                                                                           
+# The values are in global scope and do not leak to your commands                                                           
+                                                                                                                             
+# this stage is fixed to worker platform (linux/amd64 in this case)                                                         
+
+FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.3 as watchdog
+FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
+# expose the values to the stage                                                                                            
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                                              
+# configure go to use target configuration                                                                                  
+ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
 
 RUN apk --no-cache add git
 
@@ -21,7 +33,14 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-FROM alpine:edge
+FROM --platform=$BUILDPLATFORM alpine:edge
+
+# expose the values to the stage                                                                                            
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                                              
+# configure go to use target configuration                                                                                  
+ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
+
 # Add non root user and certs
 RUN apk --no-cache add ca-certificates
 RUN addgroup -S app
