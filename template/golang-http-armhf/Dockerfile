@@ -44,7 +44,7 @@ ARG TARGETARCH
 #RUN adduser -S -g app app
 #RUN mkdir -p /home/app
 #RUN chown app /home/app
-RUN ["/usr/bin/sh","echo", "hello"]
+RUN ["/bin/bash","echo", "hello"]
 #WORKDIR /home/app
 
 #COPY --from=build /go/src/handler/handler    .
