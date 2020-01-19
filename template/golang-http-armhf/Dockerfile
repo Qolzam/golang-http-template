@@ -17,4 +17,5 @@
  FROM scratch AS release                                                                                                     
  COPY --from=build /bin/hello . 
                                                                                         
- ENTRYPOINT ["/hello"]  
+FROM binaries AS release                                                                                         
+ENTRYPOINT ["/hello"]  
