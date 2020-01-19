@@ -6,7 +6,7 @@
 # The values are in global scope and do not leak to your commands                                                              
 
 # FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
-FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
+FROM --platform=$BUILDPLATFORM golang:alpine as build
 # expose the values to the stage                                                                                            
 ARG TARGETOS                                                                                                                
 ARG TARGETARCH                                                                                                              
