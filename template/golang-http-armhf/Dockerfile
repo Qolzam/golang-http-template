@@ -33,33 +33,4 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-FROM --platform=$BUILDPLATFORM alpine
-
-# expose the values to the stage                                                                                            
-ARG TARGETOS                                                                                                                
-ARG TARGETARCH   
-
-#RUN echo "I am using the default scratch"
-# Add non root user and certs
-RUN apk --no-cache add ca-certificates
-RUN addgroup -S app
-RUN adduser -S -g app app
-RUN mkdir -p /home/app
-RUN chown app /home/app
-
-WORKDIR /home/app
-
-COPY --from=build /go/src/handler/main.sh    .
-COPY --from=build /go/src/handler/handler    .
-COPY --from=build /usr/bin/fwatchdog         .
-COPY --from=build /go/src/handler/function/  .
-
-RUN chown -R app /home/app
-
-USER app
-
-ENV fprocess="./handler"
-ENV mode="http"
-ENV upstream_url="http://127.0.0.1:8082"
-
 CMD ["ping", "8.8.8.8"]
