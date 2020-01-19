@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM openfaas/classic-watchdog as watchdog
+FROM --platform=$BUILDPLATFORM openfaas/classic-watchdog:0.18.10 as watchdog
 
 FROM --platform=$BUILDPLATFORM alpine
 ARG TARGETOS                                                                                                                
