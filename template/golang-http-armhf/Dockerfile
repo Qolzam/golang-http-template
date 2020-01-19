@@ -17,7 +17,5 @@ RUN go build -o /bin/hello .
 FROM scratch AS binaries                                                                                                    
 COPY --from=build /bin/hello .                                                                                              
                                                                                                                             
-FROM binaries AS release-img-linux                                                                                          
+FROM binaries                                                                                        
 ENTRYPOINT ["/hello"]   
-
-FROM release-img-$TARGETOS  
