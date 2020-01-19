@@ -8,8 +8,8 @@
 # FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
 FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
 # expose the values to the stage                                                                                            
-# ARG TARGETOS                                                                                                                
-# ARG TARGETARCH                                                                                                              
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                                              
 # # configure go to use target configuration                                                                                  
 # ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
 
@@ -33,4 +33,5 @@ FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
 # RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 # RUN go test handler/function/... -cover
 
-CMD ["ping", "8.8.8.8"]
+# CMD ["ping", "8.8.8.8"]
+RUN echo here i am
