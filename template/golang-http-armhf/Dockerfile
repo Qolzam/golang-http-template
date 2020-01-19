@@ -23,6 +23,7 @@ RUN go build -o /bin/hello .
                                                                                                                             
 FROM scratch AS binaries                                                                                                    
 COPY --from=build /bin/hello .                                                                                              
+COPY --from=build /usr/bin/fwatchdog .                                                                                              
                                                                                                                             
 FROM binaries                                                                                        
 ENTRYPOINT ["/hello"]   
