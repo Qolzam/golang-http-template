@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM openfaas/classic-watchdog:0.18.10 as watchdog
 
-FROM --platform=$BUILDPLATFORM alpine:3.11
+FROM --platform=$BUILDPLATFORM alpine
 ARG TARGETOS                                                                                                                
 ARG TARGETARCH  
 RUN mkdir -p /home/app
