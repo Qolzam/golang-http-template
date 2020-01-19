@@ -21,9 +21,13 @@ WORKDIR /go/src/github.com/tonistiigi/example
 COPY main.go .                                                                                                              
 RUN go build -o /bin/hello .                                                                                                
                                                                                                                             
-FROM scratch AS binaries                                                                                                    
+FROM --from=watchdog scratch AS binaries
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                                     
 COPY --from=build /bin/hello .                                                                                              
 COPY --from=build /usr/bin/fwatchdog .      
 
-FROM binaries                                                                                        
+FROM --from=watchdog binaries    
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                     
 ENTRYPOINT ["/fwatchdog"]   
