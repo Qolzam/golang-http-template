@@ -5,32 +5,32 @@
 # TARGET* is the target platform of the build job                                                                           
 # The values are in global scope and do not leak to your commands                                                              
 
-FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
+# FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
 FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
 # expose the values to the stage                                                                                            
-ARG TARGETOS                                                                                                                
-ARG TARGETARCH                                                                                                              
-# configure go to use target configuration                                                                                  
-ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
+# ARG TARGETOS                                                                                                                
+# ARG TARGETARCH                                                                                                              
+# # configure go to use target configuration                                                                                  
+# ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
 
-RUN apk --no-cache add git
+# RUN apk --no-cache add git
 
-COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
-RUN chmod +x /usr/bin/fwatchdog
+# COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
+# RUN chmod +x /usr/bin/fwatchdog
 
-ENV CGO_ENABLED=0
+# ENV CGO_ENABLED=0
 
-RUN mkdir -p /go/src/handler
-WORKDIR /go/src/handler
-COPY . .
+# RUN mkdir -p /go/src/handler
+# WORKDIR /go/src/handler
+# COPY . .
 
-# Run a gofmt and exclude all vendored code.
-RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./function/vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
+# # Run a gofmt and exclude all vendored code.
+# RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./function/vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
 
-ARG GO111MODULE="off"
-ARG GOPROXY=""
+# ARG GO111MODULE="off"
+# ARG GOPROXY=""
 
-RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
-RUN go test handler/function/... -cover
+# RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
+# RUN go test handler/function/... -cover
 
 CMD ["ping", "8.8.8.8"]
