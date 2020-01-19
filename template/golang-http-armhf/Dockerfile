@@ -16,5 +16,5 @@
                                                                                                                              
  FROM scratch AS release                                                                                                     
  COPY --from=build /bin/hello . 
-
- CMD ["ping","8.8.8.8"]
+                                                                                        
+ ENTRYPOINT ["/hello"]  
