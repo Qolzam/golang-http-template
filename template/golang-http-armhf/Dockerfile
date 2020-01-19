@@ -15,8 +15,8 @@ ARG TARGETARCH
 
 RUN apk --no-cache add git
 
-COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
-RUN chmod +x /usr/bin/fwatchdog
+COPY --from=watchdog /fwatchdog-armhf /usr/bin/fwatchdog-armhf
+RUN chmod +x /usr/bin/fwatchdog-armhf
 
 ENV GOOS=$TARGETOS GOARCH=$TARGETARCH                                                                                       
 WORKDIR /go/src/github.com/tonistiigi/example                                                                               
@@ -25,7 +25,7 @@ RUN go build -o /bin/hello .
                                                                                                                             
 FROM scratch AS binaries                                                                                                    
 COPY --from=build /bin/hello .                                                                                              
-COPY --from=build /usr/bin/fwatchdog .                                                                                              
+COPY --from=build /usr/bin/fwatchdog-armhf .                                                                                              
                                                                                                                             
 FROM binaries                                                                                        
 ENTRYPOINT ["/hello"]   
