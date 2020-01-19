@@ -3,15 +3,13 @@
 # TARGET* is the target platform of the build job                                                                           
 # The values are in global scope and do not leak to your commands                                                              
 
-#FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
-#FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
-FROM openfaas/of-watchdog:0.7.6 as watchdog
-FROM golang:1.13-alpine3.11 as build
+FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
+FROM --platform=$BUILDPLATFORM golang:1.13-alpine3.11 as build
 # expose the values to the stage                                                                                            
 ARG TARGETOS                                                                                                                
 ARG TARGETARCH                                                                                                              
 # configure go to use target configuration                                                                                  
-#ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
+ENV GOOS=$TARGETOS GOARCH=$TARGETARCH    
 
 RUN apk --no-cache add git
 
@@ -33,8 +31,7 @@ ARG GOPROXY=""
 RUN go build --ldflags "-s -w" -a -installsuffix cgo -o handler .
 RUN go test handler/function/... -cover
 
-#FROM --platform=$BUILDPLATFORM alpine
-FROM alpine
+FROM --platform=$BUILDPLATFORM alpine
 
 # expose the values to the stage                                                                                            
 ARG TARGETOS                                                                                                                
