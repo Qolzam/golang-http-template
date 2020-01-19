@@ -1,5 +1,5 @@
- # qolzam/qolzam-qc-test-go-fn:latest-master-1c589d5
- # kubectl run --image=qolzam/qolzam-qc-test-go-fn:latest-master-1c589d5 nginx-app --port=8080
+ ### qolzam/qolzam-qc-test-go-fn:latest-master-1c589d5
+ # kubectl run --image=qolzam/qolzam-qc-test-go-fn:latest-master-1c589d5 my-app --port=8080
  # BUILD* and TARGET* args are filled automatically                                                                          
  # BUILD* means the platform of the node doing the build                                                                     
  # TARGET* is the target platform of the build job                                                                           
@@ -23,9 +23,9 @@ WORKDIR /go/src/github.com/tonistiigi/example
 COPY main.go .                                                                                                              
 RUN go build -o /bin/hello .                                                                                                
                                                                                                                             
-# FROM scratch AS binaries                                                                                                    
-# COPY --from=build /bin/hello .                                                                                              
-# COPY --from=build /usr/bin/fwatchdog .                                                                                              
+FROM scratch AS binaries                                                                                                    
+COPY --from=build /bin/hello .                                                                                              
+COPY --from=build /usr/bin/fwatchdog .                                                                                              
                                                                                                                             
-# FROM binaries                                                                                        
-ENTRYPOINT ["/bin/hello"]   
+FROM binaries                                                                                        
+ENTRYPOINT ["/hello"]   
