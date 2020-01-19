@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM openfaas/classic-watchdog:0.18.10 as watchdog
+FROM --platform=$BUILDPLATFORM openfaas/classic-watchdog as watchdog
 
 FROM --platform=$BUILDPLATFORM alpine
 ARG TARGETOS                                                                                                                
@@ -25,4 +25,5 @@ EXPOSE 8080
 
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 RUN echo before watchdog
-CMD ["fwatchdog"]
+# CMD ["fwatchdog"]
+CMD ["cat"]
