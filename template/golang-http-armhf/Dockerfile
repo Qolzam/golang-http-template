@@ -47,6 +47,7 @@ RUN chown app /home/app
 
 WORKDIR /home/app
 
+COPY --from=build /go/src/handler/main.sh    .
 COPY --from=build /go/src/handler/handler    .
 COPY --from=build /usr/bin/fwatchdog         .
 COPY --from=build /go/src/handler/function/  .
@@ -59,4 +60,4 @@ ENV fprocess="./handler"
 ENV mode="http"
 ENV upstream_url="http://127.0.0.1:8082"
 
-CMD ["./fwatchdog"]
+CMD ["./main.sh"]
