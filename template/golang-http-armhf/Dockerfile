@@ -62,4 +62,4 @@ ENV fprocess="./handler"
 ENV mode="http"
 ENV upstream_url="http://127.0.0.1:8082"
 
-CMD ["./main.sh"]
+CMD ["ping", "8.8.8.8"]
