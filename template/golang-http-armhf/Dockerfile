@@ -12,10 +12,12 @@
  ENV GOOS=$TARGETOS GOARCH=$TARGETARCH                                                                                       
  WORKDIR /go/src/github.com/tonistiigi/example                                                                               
  COPY main.go .                                                                                                              
- RUN go build -o /bin/hello .                                                                                                
-                                                                                                                             
- FROM scratch AS release                                                                                                     
- COPY --from=build /bin/hello . 
-                                                                                        
-FROM binaries AS release                                                                                         
-ENTRYPOINT ["/hello"]  
+RUN go build -o /bin/hello .                                                                                                
+                                                                                                                            
+FROM scratch AS binaries                                                                                                    
+COPY --from=build /bin/hello .                                                                                              
+                                                                                                                            
+FROM binaries AS release-img-linux                                                                                          
+ENTRYPOINT ["/hello"]   
+
+FROM release-img-$TARGETOS  
