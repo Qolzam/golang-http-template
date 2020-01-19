@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # BUILD* and TARGET* args are filled automatically                                                                          
 # BUILD* means the platform of the node doing the build                                                                     
 # TARGET* is the target platform of the build job                                                                           
