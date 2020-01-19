@@ -4,18 +4,25 @@
  # The values are in global scope and do not leak to your commands                                                           
                                                                                                                              
  # this stage is fixed to worker platform (linux/amd64 in this case)                                                         
- FROM --platform=$BUILDPLATFORM golang:alpine AS build                                                                       
- # expose the values to the stage                                                                                            
- ARG TARGETOS                                                                                                                
- ARG TARGETARCH                                                                                                              
- # configure go to use target configuration                                                                                  
- ENV GOOS=$TARGETOS GOARCH=$TARGETARCH                                                                                       
- WORKDIR /go/src/github.com/tonistiigi/example                                                                               
- COPY main.go .                                                                                                              
+FROM --platform=$BUILDPLATFORM openfaas/of-watchdog:0.7.6 as watchdog
+FROM --platform=$BUILDPLATFORM golang:alpine AS build                                                                       
+# expose the values to the stage                                                                                            
+ARG TARGETOS                                                                                                                
+ARG TARGETARCH                                                                                                              
+# configure go to use target configuration      
+
+RUN apk --no-cache add git
+
+COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
+RUN chmod +x /usr/bin/fwatchdog
+
+ENV GOOS=$TARGETOS GOARCH=$TARGETARCH                                                                                       
+WORKDIR /go/src/github.com/tonistiigi/example                                                                               
+COPY main.go .                                                                                                              
 RUN go build -o /bin/hello .                                                                                                
                                                                                                                             
 FROM scratch AS binaries                                                                                                    
 COPY --from=build /bin/hello .                                                                                              
                                                                                                                             
 FROM binaries                                                                                        
-ENTRYPOINT ["/hello"]   
+ENTRYPOINT ["/usr/bin/fwatchdog"]   
